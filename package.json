@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/sachins0412/Task-manager#readme",
   "dependencies": {
-    "mongodb": "^4.7.0",
-    "mongoose": "^6.4.4"
+    "mongodb": "4.7.0",
+    "mongoose": "6.4.4",
+    "validator": "13.7.0"
   }
 }
