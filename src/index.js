@@ -9,7 +9,7 @@ app.use(express.json());
 const User = require("./models/user");
 const Task = require("./models/task");
 
-app.post("/user", async (req, res) => {
+app.post("/users", async (req, res) => {
   const user = new User(req.body);
   try {
     await user.save();
@@ -67,7 +67,19 @@ app.patch("/users/:id", async (req, res) => {
   }
 });
 
-app.post("/task", async (req, res) => {
+app.delete("/users/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).send();
+    }
+    res.json(user);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
+app.post("/tasks", async (req, res) => {
   const task = new Task(req.body);
   try {
     await task.save();
@@ -124,7 +136,17 @@ app.patch("/tasks/:id", async (req, res) => {
     res.status(400).send(e);
   }
 });
-
+app.delete("/tasks/:id", async (req, res) => {
+  try {
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task) {
+      return res.status(404).send();
+    }
+    res.json(task);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
 app.listen(PORT, () => {
   console.log("server is running on port ", PORT);
 });
