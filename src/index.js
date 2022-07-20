@@ -48,14 +48,6 @@ app.post("/task", async (req, res) => {
   } catch (e) {
     res.status(400).send(e);
   }
-  // task
-  //   .save()
-  //   .then(() => {
-  //     res.status(201).json(task);
-  //   })
-  //   .catch((e) => {
-  //     res.status(400).send(e);
-  //   });
 });
 
 app.get("/tasks", async (req, res) => {
