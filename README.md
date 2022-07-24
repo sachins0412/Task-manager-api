@@ -1,2 +1,3 @@
 # Task-manager
-Task Manager app using nodejs &amp; mongoDB as the database
+
+Task Manager api using nodejs &amp; mongoDB as the database
