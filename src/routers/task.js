@@ -17,18 +17,24 @@ router.post("/tasks", auth, async (req, res) => {
   }
 });
 
-router.get("/tasks", async (req, res) => {
+router.get("/tasks", auth, async (req, res) => {
   try {
-    const tasks = await Task.find({});
-    res.json(tasks);
+    // const tasks = await Task.find({ owner: req.user._id });     //this approach also
+    // res.send(tasks);                                            //works fine.. :)
+    await req.user.populate("tasks");
+    res.json(req.user.tasks);
   } catch (e) {
+    console.log(e);
     res.status(500).send(e);
   }
 });
 
-router.get("/tasks/:id", async (req, res) => {
+router.get("/tasks/:id", auth, async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({
+      _id: req.params.id,
+      owner: req.user._id,
+    });
     if (!task) {
       return res.status(404).send();
     }
@@ -38,7 +44,7 @@ router.get("/tasks/:id", async (req, res) => {
   }
 });
 
-router.patch("/tasks/:id", async (req, res) => {
+router.patch("/tasks/:id", auth, async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["description", "completed"];
 
@@ -50,7 +56,10 @@ router.patch("/tasks/:id", async (req, res) => {
     return res.status(400).send({ error: "Invalid Updates" });
   }
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({
+      _id: req.params.id,
+      owner: req.user._id,
+    });
 
     if (!task) {
       return res.status(404).send();
