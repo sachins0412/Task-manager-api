@@ -54,7 +54,7 @@ const userSchema = mongoose.Schema({
 userSchema.virtual("tasks", {
   ref: "Task",
   localField: "_id",
-  foreignField: "Owner",
+  foreignField: "owner",
 });
 
 userSchema.methods.generateAuthToken = async function () {
