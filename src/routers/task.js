@@ -39,7 +39,6 @@ router.get("/tasks", auth, async (req, res) => {
       const parts = req.query.sortBy.split("_");
       sort[parts[0]] = parts[1] === "dsc" ? -1 : 1;
     }
-    console.log(sort);
     await req.user.populate({
       path: "tasks",
       match,
