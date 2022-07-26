@@ -17,20 +17,36 @@ router.post("/tasks", auth, async (req, res) => {
   }
 });
 
+// *************Available query params**************
+// limit : to limit the result
+// skip : to skip fist 'n' results
+// completed : filter acc to 'complete' property
+// sortBy : sort result -- createdAt_asc OR createdAt_dsc
+//                      -- updatedAt_asc OR updatedAt_dsc
+//                      -- completed_dsc for sorting by completed tasks
+//                         completed_asc for sorting by uncompleted tasks
 router.get("/tasks", auth, async (req, res) => {
   try {
     // const tasks = await Task.find({ owner: req.user._id });     //this approach to get all tasks also
     // res.send(tasks);                                            //works fine.. :)
     let match = {};
+    let sort = {};
     if (req.query.completed) {
       match.completed = req.query.completed === "true";
     }
+
+    if (req.query.sortBy) {
+      const parts = req.query.sortBy.split("_");
+      sort[parts[0]] = parts[1] === "dsc" ? -1 : 1;
+    }
+    console.log(sort);
     await req.user.populate({
       path: "tasks",
       match,
       options: {
         limit: parseInt(req.query.limit),
         skip: parseInt(req.query.skip),
+        sort,
       },
     });
     res.json(req.user.tasks);
