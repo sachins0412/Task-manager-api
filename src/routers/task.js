@@ -19,8 +19,9 @@ router.post("/tasks", auth, async (req, res) => {
 
 router.get("/tasks", auth, async (req, res) => {
   try {
-    // const tasks = await Task.find({ owner: req.user._id });     //this approach also
+    // const tasks = await Task.find({ owner: req.user._id });     //this approach to get all tasks also
     // res.send(tasks);                                            //works fine.. :)
+
     await req.user.populate({
       path: "tasks",
       match: {
