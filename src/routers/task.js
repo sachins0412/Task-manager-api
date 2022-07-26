@@ -28,6 +28,10 @@ router.get("/tasks", auth, async (req, res) => {
     await req.user.populate({
       path: "tasks",
       match,
+      options: {
+        limit: req.query.limit,
+        skip: req.query.skip,
+      },
     });
     res.json(req.user.tasks);
   } catch (e) {
