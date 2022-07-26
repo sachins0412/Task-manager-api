@@ -21,12 +21,13 @@ router.get("/tasks", auth, async (req, res) => {
   try {
     // const tasks = await Task.find({ owner: req.user._id });     //this approach to get all tasks also
     // res.send(tasks);                                            //works fine.. :)
-
+    let match = {};
+    if (req.query.completed) {
+      match.completed = req.query.completed === "true";
+    }
     await req.user.populate({
       path: "tasks",
-      match: {
-        completed: true,
-      },
+      match,
     });
     res.json(req.user.tasks);
   } catch (e) {
