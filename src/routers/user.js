@@ -111,9 +111,25 @@ router.post(
   }
 );
 
+router.get("/users/:id/avatar", async (req, res) => {
+  try {
+    const user = await User.findById("62e149e3139e775a9094f030");
+
+    if (!user || !user.avatar) {
+      throw new Error();
+    }
+
+    res.set("Content-Type", "image/jpg");
+    res.send(user.avatar);
+  } catch (e) {
+    res.status().send();
+  }
+});
+
 router.delete("/users/me/avatar", auth, async (req, res) => {
   req.user.avatar = undefined;
   await req.user.save();
   res.send();
 });
+
 module.exports = router;
