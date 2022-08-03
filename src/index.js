@@ -1,7 +1,7 @@
 const express = require("express");
 require("./db/mongoose"); //required to run the connection file
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const userRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
