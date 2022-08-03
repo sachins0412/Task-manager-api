@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
-    "watch": "nodemon ."
+    "dev": " env-cmd -f ./config/dev.env nodemon ."
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "validator": "13.7.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "env-cmd": "^10.1.0"
   }
 }
